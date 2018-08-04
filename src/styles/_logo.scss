@@ -1,0 +1,14 @@
+
+.Tilt{
+    height: 150px;
+    width: 150px;
+    display:flex;
+    justify-content: center;
+    border: 2px solid $main-text-grey-color;
+    margin:10px auto 20px auto;
+    
+    .Tilt-inner{
+        margin: auto;
+        font-size: 5em;
+    }
+}

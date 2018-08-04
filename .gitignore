@@ -22,3 +22,5 @@ yarn-error.log*
 
 #ignoring .css files
 /src/**/*.css
+
+package-lock.json

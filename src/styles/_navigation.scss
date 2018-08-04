@@ -1,0 +1,21 @@
+.navbar {
+    padding: 20px;
+    margin-bottom: 40px;
+    background-color: $main-black-color;
+    display:flex;
+    justify-content: flex-end !important;
+    cursor: pointer;
+  
+    .nav-item {
+      font-size: 14px;
+      color: $main-white-color;
+      &:hover, &:focus, &:active {
+        background-color: transparent !important;
+        border-color: $main-color !important;
+        color: $main-color !important;
+        box-shadow: none;
+      }
+    }
+  
+  }
+  
