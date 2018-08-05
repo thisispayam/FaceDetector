@@ -32,8 +32,34 @@ class App extends Component {
     super();
     this.state={
       input:'',
-      imgUrl:''
+      imgUrl:'',
+      box:{}
     }
+  }
+  //data output example: bounding_box:
+// bottom_row:0.86537194
+// left_col: 0.21732157
+// right_col:0.72114766
+// top_row:0.31689075
+
+  calculateFaceLocation = (data) => {
+    console.log(data);
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById('input-image');
+    const width = Number(image.width);
+    const height = Number(image.height);
+    console.log(width, height);
+    return {
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - (clarifaiFace.right_col * width),
+      bottomRow: height - (clarifaiFace.bottom_row * height)
+    }
+  }
+
+  displayFacebox = (box) => {
+    this.setState({box: box})
+    console.log(box);
   }
 
   onInputChange = (event) => {
@@ -46,15 +72,16 @@ class App extends Component {
 
 // initialize with your api key. This will also work in your browser via http://browserify.org/
 
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input).then(
-    function(response) {
+    app.models
+    .predict(
+      Clarifai.FACE_DETECT_MODEL,
+       this.state.input)
+       .then(response => this.displayFacebox(this.calculateFaceLocation(response)))
       // get the boundnig box data from the response
-      console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
-    },
-    function(err) {
+      //console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
+
+    .catch(err => console.log(err));
       // there was an error
-    }
-  );
   }
   render() {
     return (
@@ -64,7 +91,7 @@ class App extends Component {
       <Logo />
       <Rank />
       <ImageLinkForm onButtonSubmit={this.onButtonSubmit} onInputChange={this.onInputChange}/>
-      <FaceRecognition imgUrl={this.state.imgUrl}/>
+      <FaceRecognition box={this.state.box} imgUrl={this.state.imgUrl}/>
 
       </div>
     );
