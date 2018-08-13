@@ -24,3 +24,6 @@ yarn-error.log*
 /src/**/*.css
 
 package-lock.json
+
+api/node_modules
+api/package-lock.json
