@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt-nodejs');
 
 const app = express();
 
@@ -51,17 +52,36 @@ app.post('/register', (req, res) => {
    });
    res.json(database.users[database.users.length-1]); //the last user
 });
+app.get('profile/:id', (req, res) => {
+    const {id} = req.params;
+    const found = false;
+    database.users.forEach(users => {
+        if (user.id === id) {
+                found = true;
+                return res.json(user);
+            }
+        })
+        if(!found){
+            res.status(400).json('no found');
+        }
+})
+
+app.put('/image', (req, res) => {
+    const { id } = req.body;
+    const found = false;
+    database.users.forEach(users => {
+        if (user.id === id) {
+            found = true;
+            user.enteries++
+            return res.json(user.enteries);
+        }
+    })
+    if (!found) {
+        res.status(400).json('no found');
+    }
+})
+
 
 app.listen(4000, () => {
     console.log('server is running on port 4000');
 })
-
-/* planning the API
-
-/ --> res= this is working
-/signin --> POST = success/fail
-/register --> POST = user
-/profile/:userId --> GET = user
-/image --> PUT --> user 
-
-*/
